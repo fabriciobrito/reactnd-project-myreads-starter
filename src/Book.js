@@ -19,7 +19,7 @@ class Book extends Component {
               style={{
                 width: 128,
                 height: 193,
-                backgroundImage: `url("${book.imageLinks.thumbnail}")`
+                backgroundImage: `url("${book.imageLinks && book.imageLinks.thumbnail}")`
               }}
             >
             </div>
@@ -31,7 +31,7 @@ class Book extends Component {
             />
           </div>
           <div className="book-title">{book.title}</div>
-          <div className="book-authors">{book.authors[0]}</div>
+          <div className="book-authors">{book.authors && book.authors.join(', ')}</div>
         </div>
     )
   }

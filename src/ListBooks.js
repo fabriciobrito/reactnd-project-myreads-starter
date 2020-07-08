@@ -2,13 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
 
-const shelfNames = {
-  currentlyReading: {name: 'Currently Reading'},
-  wantToRead: {name: 'Want to Read'},
-  read: {name: 'Read'},
-  none: {name: 'None'}
-};
-
 class ListBooks extends Component {
   groupByShelf = (books) => {
     return books.reduce((booksByShelf, book) => {
@@ -18,7 +11,7 @@ class ListBooks extends Component {
   };
 
   render() {
-    const { bookList, handleShelfChange } = this.props;
+    const { bookList, handleShelfChange, shelfNames } = this.props;
     const shelfBookList = this.groupByShelf(bookList);
     return(
       <div className="list-books">
