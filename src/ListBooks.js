@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import BookShelf from './BookShelf';
 
-const shelfBeautifulNames = {
-  currentlyReading: 'Currently Reading',
-  wantToRead: 'Want to Read',
-  read: 'Read'
+const shelfNames = {
+  currentlyReading: {name: 'Currently Reading'},
+  wantToRead: {name: 'Want to Read'},
+  read: {name: 'Read'},
+  none: {name: 'None'}
 };
 
 class ListBooks extends Component {
@@ -16,9 +17,8 @@ class ListBooks extends Component {
   };
 
   render() {
-    const { bookList } = this.props;
+    const { bookList, handleShelfChange } = this.props;
     const shelfBookList = this.groupByShelf(bookList);
-    console.log(shelfBookList);
     return(
       <div className="list-books">
         <div className="list-books-title">
@@ -26,11 +26,13 @@ class ListBooks extends Component {
         </div>
         <div className="list-books-content">
           <div>
-            {Object.keys(shelfBookList).map((shelfName) => (
-              <span key={shelfName}>
+            {Object.keys(shelfBookList).map((shelfNameID) => (
+              <span key={shelfNameID}>
                 <BookShelf
-                  shelfName={shelfBeautifulNames[shelfName]}
-                  shelfBookList={shelfBookList[shelfName]}
+                  shelfName={shelfNames[shelfNameID].name}
+                  shelfNames={shelfNames}
+                  shelfBookList={shelfBookList[shelfNameID]}
+                  handleShelfChange={handleShelfChange}
                 />
               </span>
             ))}

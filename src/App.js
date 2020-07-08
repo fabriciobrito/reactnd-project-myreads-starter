@@ -6,7 +6,7 @@ import './App.css'
 
 class BooksApp extends React.Component {
   state = {
-    books: [],
+    books: [], //Needs to be stored in App because it is used by SearchBooks and ListBooks
     /**
      * TODO: Instead of using this state variable to keep track of which page
      * we're on, use the URL in the browser's address bar. This will ensure that
@@ -16,16 +16,26 @@ class BooksApp extends React.Component {
     showSearchPage: false
   };
 
+  handleShelfChange = (book, shelf) => {
+    BooksAPI.update(book, shelf).then((ret) => {
+      this.updateBooks();
+    });
+  };
+
   handleShowSearchPageChange = (value) => {
     this.setState({showSearchPage: value});
   };
 
-  componentDidMount() {
+  updateBooks() {
     BooksAPI.getAll().then((books) => (
-      this.setState((prevState) => ({
-        books: prevState.books.concat(books)
-      }))
+      this.setState({
+        books
+      })
     ));
+  };
+
+  componentDidMount() {
+    this.updateBooks();
   }
 
   render() {
@@ -39,6 +49,7 @@ class BooksApp extends React.Component {
           <ListBooks
             bookList={this.state.books}
             handleShowSearchPageChange={this.handleShowSearchPageChange}
+            handleShelfChange={this.handleShelfChange}
           />
         )}
       </div>
