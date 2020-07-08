@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import BookShelf from './BookShelf';
 
 const shelfNames = {
@@ -38,9 +39,9 @@ class ListBooks extends Component {
             ))}
           </div>
         </div>
-        <div className="open-search">
-          <button onClick={() => this.props.handleShowSearchPageChange(true)}>Add a book</button>
-        </div>
+        <Link to='/search' className="open-search">
+          Add a book
+        </Link>
       </div>
     );
   }
