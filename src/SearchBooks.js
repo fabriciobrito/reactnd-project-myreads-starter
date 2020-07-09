@@ -18,14 +18,35 @@ class SearchBooks extends Component {
 
   searchBooks = (query) => {
     BooksAPI.search(query).then((results) => {
+      results = (results.error?[]:this.updateResultShelves(results))
       this.setState({
         results
       })
     })
   };
 
+  updateResultShelves(list){
+    return list.map((b) => {
+      b.shelf = this.props.booksInShelves[b.id] || 'none';
+      return b;
+    })
+  }
+
+  /**
+   * Whenever the books in shelves changes in props, the result state
+   * is updated to reflect the current shelf of the book.
+   *
+   * @param {*} prevProps
+   */
+  componentDidUpdate(prevProps) {
+    prevProps.booksInShelves !== this.props.booksInShelves &&
+      this.setState({
+        results: this.updateResultShelves(this.state.results)
+      })
+  }
+
   render() {
-      const { shelfNames } = this.props;
+      const { shelfNames, handleShelfChange } = this.props;
       return(
         <div className="search-books">
           <div className="search-books-bar">
@@ -33,14 +54,6 @@ class SearchBooks extends Component {
               Close
             </Link>
             <div className="search-books-input-wrapper">
-              {/*
-                NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                You can find these search terms here:
-                https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                you don't find a specific author or title. Every search is limited by search terms.
-              */}
               <input
                 type="text"
                 value={this.state.query}
@@ -54,7 +67,11 @@ class SearchBooks extends Component {
             <ol className="books-grid">
               {this.state.results.map((book) => (
                 <li key={book.id}>
-                  <Book book={book} shelfNames={shelfNames}/>
+                  <Book
+                    book={book}
+                    shelfNames={shelfNames}
+                    handleShelfChange={handleShelfChange}
+                  />
                 </li>
               ))}
             </ol>

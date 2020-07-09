@@ -35,17 +35,32 @@ class BooksApp extends React.Component {
     ));
   };
 
+  /**
+   * Builds a list with book IDs and shelf name with every book in any shelf
+   *
+   * @returns Object[book ID]: shelf
+   * @memberof BooksApp
+   */
+  booksInShelves() {
+    return this.state.books.reduce((list, book) => {
+      list[book.id] = book.shelf;
+      return list;
+    }, {})
+  }
+
   componentDidMount() {
     this.updateBooks();
   }
 
   render() {
+    const booksInShelves = this.booksInShelves();
     return (
       <div className="app">
         <Route path='/search' render={() => (
           <SearchBooks
-            books={this.state.books}
+            booksInShelves={booksInShelves}
             shelfNames={shelfNames}
+            handleShelfChange={this.handleShelfChange}
           />
         )}/>
         <Route exact path='/' render={() => (
