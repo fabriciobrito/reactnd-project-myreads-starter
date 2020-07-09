@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import BookShelfChanger from './BookShelfChanger';
 
 class Book extends Component {
+  static propTypes = {
+    book: PropTypes.object.isRequired,
+    shelfNames: PropTypes.object.isRequired
+  };
+
   handleShelfChange = (e) => {// Handles the BookShelfChanger event and adds the book obj
     this.props.handleShelfChange( //From BookShelf and up, the signature is (book, shelf)
       this.props.book,

@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import BookShelf from './BookShelf';
 
 class ListBooks extends Component {
+  static propTypes = {
+    bookList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    handleShelfChange: PropTypes.func.isRequired,
+    shelfNames: PropTypes.object.isRequired
+  };
+
   groupByShelf = (books) => {
     return books.reduce((booksByShelf, book) => {
       (booksByShelf[book.shelf] = booksByShelf[book.shelf] || []).push(book);
